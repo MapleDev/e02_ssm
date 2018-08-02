@@ -4,24 +4,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.xznn.mapper.CategoryMapper">
-    <insert id="add" parameterType="com.xznn.pojo.Category" >
-        insert into category_ ( name ) values (#{name})
+    <insert id="add" parameterType="com.xznn.pojo.Category">
+        insert into category_ (name) values (#{name})
     </insert>
 
-    <delete id="delete" parameterType="com.xznn.pojo.Category" >
-        delete from category_ where id= #{id}
+    <delete id="delete" parameterType="com.xznn.pojo.Category">
+        delete from category_
+        where id = #{id}
     </delete>
 
-    <update id="update" parameterType="com.xznn.pojo.Category" >
-        update category_ set name=#{name} where id=#{id}
+    <update id="update" parameterType="com.xznn.pojo.Category">
+        update category_
+        set name = #{name}
+        where id = #{id}
     </update>
 
     <!--<select id="get" parameterType="_int" resultType="com.xznn.pojo.Category">-->
     <select id="get" parameterType="int" resultType="com.xznn.pojo.Category">
-        select * from   category_  where id= #{id}
+        select *
+        from category_
+        where id = #{id}
     </select>
 
     <select id="list" resultType="com.xznn.pojo.Category">
-        select * from   category_
+        select * from category_
+        <if test="start!=null and count!=null">
+            limit #{start}, #{count}
+        </if>
+    </select>
+
+    <select id="total" resultType="int">
+        select count(1)
+        from category_
     </select>
 </mapper>
