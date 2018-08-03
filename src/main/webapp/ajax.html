@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="#" />
+    <title>用AJAX以JSON方式获取数据</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+
+</head>
+<body>
+
+<form >
+    id：<input type="text" id="id" value="123" /><br/>
+    名称：<input type="text" id="name" value="category xxx"/><br/>
+    <input type="button" value="提交" id="sender">
+</form>
+<br/>
+<br/>
+<input type="button" value="通过AJAX获取一个 Category 对象" id="getOneCategoryBtn"/>
+<br/>
+<br/>
+<input type="button" value="通过AJAX获取多个 Category 对象" id="getManyCategoryBtn"/>
+<br/>
+<br/>
+<div id="messageDiv"></div>
+
+<script>
+    // $('#submitCategory').click(function () {
+    //     var myDate = new Date();
+    //     var mytime = myDate.toLocaleTimeString(); //获取当前时间
+    //     var url = "submitCategory?name=" + 'newCategory' + mytime;
+    //     $.post(
+    //         url,
+    //         function (data) {
+    //             $("#messageDiv").html("添加成功 data = " + data);
+    //         });
+    // });
+
+    $('#sender').click(function(){
+        var id=document.getElementById('id').value;
+        var name=document.getElementById('name').value;
+        var category={"name":name,"id":id};
+        var jsonData = JSON.stringify(category);
+        var page="submitCategory";
+
+        $.ajax({
+            type:"post",
+            url: page,
+            data:jsonData,
+            dataType:"JSON",
+            contentType : "application/json;charset=UTF-8",
+            success: function(data){
+                // $("#messageDiv").html("添加成功 data = " + data);
+            }
+        });
+    });
+
+    $('#getOneCategoryBtn').click(function () {
+        var url = "getOneCategory?id=" + 1;
+        $.post(
+            url,
+            function (data) {
+                var json = JSON.parse(data);
+                var name = json.category.name;
+                var id = json.category.id;
+                $("#messageDiv").html("分类id：" + id + "<br>分类名称:" + name);
+            });
+    });
+
+    $("#getManyCategoryBtn").click(function () {
+        $.post(
+            "getManyCategory?start=" + 0 + "&count=" + 5,
+            function (data) {
+                console.log(data);
+                var categorys = $.parseJSON(data);
+                for(i in categorys){
+                    var old = $("#messageDiv").html();
+                    var category = categorys[i];
+                    $("#messageDiv").html(old + "<br>"+category.id+"   -----   "+category.name);
+                }
+            });
+    });
+</script>
+
+</body>
+
+</html>

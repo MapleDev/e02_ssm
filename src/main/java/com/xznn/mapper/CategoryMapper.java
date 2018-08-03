@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CategoryMapper {
 
-    void add(Category category);
+    int add(Category category);
 
     int delete(int id);
 

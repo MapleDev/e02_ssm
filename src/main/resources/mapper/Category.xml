@@ -8,7 +8,8 @@
         insert into category_ (name) values (#{name})
     </insert>
 
-    <delete id="delete" parameterType="com.xznn.pojo.Category">
+    <!--<delete id="delete" parameterType="com.xznn.pojo.Category">-->
+    <delete id="delete">
         delete from category_
         where id = #{id}
     </delete>
@@ -19,8 +20,7 @@
         where id = #{id}
     </update>
 
-    <!--<select id="get" parameterType="_int" resultType="com.xznn.pojo.Category">-->
-    <select id="get" parameterType="int" resultType="com.xznn.pojo.Category">
+    <select id="get" parameterType="java.lang.Integer" resultType="com.xznn.pojo.Category">
         select *
         from category_
         where id = #{id}
@@ -33,7 +33,7 @@
         </if>
     </select>
 
-    <select id="total" resultType="int">
+    <select id="total" resultType="java.lang.Integer">
         select count(1)
         from category_
     </select>
